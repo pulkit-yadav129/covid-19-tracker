@@ -1,4 +1,3 @@
-
 import './App.css';
 
 import React, { useState, useEffect } from 'react';
@@ -8,6 +7,7 @@ const API_URL = 'https://covid-193.p.rapidapi.com/statistics';
 
 const App = () => {
   let arr=[];
+  const [inputValue,setInputValue]=useState('');
   const [continents, setContinents] = useState([]);
   const [searchCountry, setSearchCountry] = useState([]);
   const [selectedContinent, setSelectedContinent] = useState(null);
@@ -84,6 +84,7 @@ const App = () => {
   const handleSearchChange = (event) => {
     const country =event.target.value;
     fetchCountry(country);
+    setInputValue(country);
     
   };
 
@@ -143,10 +144,12 @@ const App = () => {
       <input
         type="text"
         placeholder="Search by country"
-        // value={searchCountry}
+        value={inputValue}
         onChange={handleSearchChange}
       />
+      {/* {inputValue && searchCountry.length===0 ? <p>No Match Found</p>: */}
       {searchCountry.length>0  ? (
+        
         <div>
         <table>
             <thead>
@@ -167,7 +170,11 @@ const App = () => {
         </div>
         
       ) : (
-        continents.map(renderContinent)
+        <div>
+        {inputValue && <p>No match found</p>} 
+        {continents.map(renderContinent)}
+        </div>
+        
       )}
     </div>
   );
